@@ -257,8 +257,12 @@ button {
 }
 
 .tabbar__icon {
-  font-size: 20px;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  line-height: 0;
 }
 
 .tabbar__label {

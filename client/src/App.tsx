@@ -1,6 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
+import type { ComponentType } from 'react';
 import { AppProvider, useApp } from './store/AppStore';
 import { applyTelegramTheme, initTelegramWebApp } from './lib/telegram';
+import {
+  IconCheckCircle,
+  IconGear,
+  IconList,
+  IconRepeat,
+  IconSquareCheck,
+} from './components/Icons';
 import { TodayPage } from './pages/TodayPage';
 import { HabitsPage } from './pages/HabitsPage';
 import { TasksPage } from './pages/TasksPage';
@@ -12,15 +20,15 @@ type TabId = 'today' | 'habits' | 'tasks' | 'reports' | 'settings';
 interface Tab {
   id: TabId;
   label: string;
-  icon: string;
+  Icon: ComponentType<{ size?: number }>;
 }
 
 const TABS: Tab[] = [
-  { id: 'today', label: 'Сегодня', icon: '✓' },
-  { id: 'habits', label: 'Привычки', icon: '↻' },
-  { id: 'tasks', label: 'Задачи', icon: '☐' },
-  { id: 'reports', label: 'Отчёты', icon: '▤' },
-  { id: 'settings', label: 'Настройки', icon: '⚙' },
+  { id: 'today', label: 'Сегодня', Icon: IconCheckCircle },
+  { id: 'habits', label: 'Привычки', Icon: IconRepeat },
+  { id: 'tasks', label: 'Задачи', Icon: IconSquareCheck },
+  { id: 'reports', label: 'Отчёты', Icon: IconList },
+  { id: 'settings', label: 'Настройки', Icon: IconGear },
 ];
 
 function Shell() {
@@ -84,18 +92,18 @@ function Shell() {
       )}
 
       <nav className="tabbar" aria-label="Основная навигация">
-        {TABS.map((t) => (
+        {TABS.map(({ id, label, Icon }) => (
           <button
-            key={t.id}
+            key={id}
             type="button"
-            className={`tabbar__item${tab === t.id ? ' tabbar__item--active' : ''}`}
-            aria-current={tab === t.id ? 'page' : undefined}
-            onClick={() => navigate(t.id)}
+            className={`tabbar__item${tab === id ? ' tabbar__item--active' : ''}`}
+            aria-current={tab === id ? 'page' : undefined}
+            onClick={() => navigate(id)}
           >
             <span className="tabbar__icon" aria-hidden="true">
-              {t.icon}
+              <Icon size={22} />
             </span>
-            <span className="tabbar__label">{t.label}</span>
+            <span className="tabbar__label">{label}</span>
           </button>
         ))}
       </nav>
